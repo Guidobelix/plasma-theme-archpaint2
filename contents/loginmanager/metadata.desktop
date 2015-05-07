@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=Archpaint2
+Description=SDDM Archpaint2 Theme using breeze components
+License=CC-BY-SA
+Type=sddm-theme
+Version=1.0
+Website=https://github.com/Guidobelix/sddm-theme-archpaint2
+Screenshot=archpaint2.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=archpaint2
+Theme-API=2.0
