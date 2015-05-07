@@ -52,7 +52,7 @@ Image {
         y: root.height
         color: "#4C000000"
         Image {
-            source: "images/kde.svgz"
+            source: "images/arch.svgz"
             anchors.centerIn: parent
             sourceSize.height: 128
             sourceSize.width: 128
