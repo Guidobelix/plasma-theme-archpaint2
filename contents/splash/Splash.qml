@@ -21,22 +21,31 @@ import QtQuick 2.2
 
 Image {
     id: root
-    property real screenFactor: screenGeometry.width/screenGeometry.height
-    source: {
-        if (screenFactor == 16.0 / 9.0) {
-            source = "../components/artwork/background_169.png"
-        }
-        else if (screenFactor == 16.0 / 10.0) {
-            source = "../components/artwork/background_1610.png"
-        }
-        else if (screenFactor == 4.0 / 3.0) {
-            source = "../components/artwork/background_43.png"
-        }
-        else {
-            source = "../components/artwork/background.png"
+    width: 1000
+    height: 1000
+
+    Repeater {
+        model: screenModel
+        Background {
+            x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
+            property real ratio: geometry.width / geometry.height
+            source: {
+                if (ratio == 16.0 / 9.0) {
+                    source = "../components/artwork/background_169.png"
+                }
+                else if (ratio == 16.0 / 10.0) {
+                    source = "../components/artwork/background_1610.png"
+                }
+                else if (ratio == 4.0 / 3.0) {
+                    source = "../components/artwork/background_43.png"
+                }
+                else {
+                    source = "../components/artwork/background.png"
+                }
+            }
+            fillMode: Image.PreserveAspectFit
         }
     }
-    fillMode: Image.PreserveAspectFit
 
     property int stage
 
@@ -47,9 +56,11 @@ Image {
     }
     Rectangle {
         id: topRect
-        width: parent.width
-        height: (root.height / 3) - bottomRect.height - 1
-        y: root.height
+        width: geometry.width
+        height: units.largeSpacing * 8
+        anchors.centerIn: parent
+        anchors.horizontalCenterOffset: 0
+        anchors.verticalCenterOffset: geometry.height * 0.22
         color: "#4C000000"
         Image {
             source: "images/arch.svgz"
@@ -61,9 +72,11 @@ Image {
 
     Rectangle {
         id: bottomRect
-        width: parent.width
-        y: -height
-        height: 50
+        width: geometry.width
+        height: units.largeSpacing * 3
+        anchors.horizontalCenter: topRect.horizontalCenter
+        anchors.top: topRect.bottom
+		anchors.topMargin: 1
         color: "#4C000000"
 
         Rectangle {

@@ -26,7 +26,7 @@ import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import SddmComponents 2.0
 
-import "./components"
+import "../components"
 
 Image {
     id: root
@@ -37,25 +37,25 @@ Image {
         model: screenModel
         Background {
             x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
-			property real screenFactor: screenGeometry.width/screenGeometry.height
+            property real ratio: geometry.width / geometry.height
             source: {
-                if (screenFactor == 16.0 / 9.0) {
-                    source = "./components/artwork/background_169.png"
+                if (ratio == 16.0 / 9.0) {
+                    source = "../components/artwork/background_169.png"
                 }
-                else if (screenFactor == 16.0 / 10.0) {
-                    source = "./components/artwork/background_1610.png"
+                else if (ratio == 16.0 / 10.0) {
+                    source = "../components/artwork/background_1610.png"
                 }
-                else if (screenFactor == 4.0 / 3.0) {
-                    source = "./components/artwork/background_43.png"
+                else if (ratio == 4.0 / 3.0) {
+                    source = "../components/artwork/background_43.png"
                 }
                 else {
-                    source = "./components/artwork/background.png"
+                    source = "../components/artwork/background.png"
                 }
             }
             fillMode: Image.PreserveAspectFit
             onStatusChanged: {
                 if (status == Image.Error && source != config.defaultBackground) {
-                    source = config.defaultBackground
+                    source = "../components/artwork/background.png"
                 }
             }
         }

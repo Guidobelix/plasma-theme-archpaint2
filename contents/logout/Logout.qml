@@ -18,14 +18,15 @@
  ***************************************************************************/
 
 import QtQuick 2.1
+import QtQuick.Window 2.2
 import "../components"
 
 Item {
     id: root
     height: units.largeSpacing*11
-    width: screenGeometry.width
+    width: Screen.width
     anchors.horizontalCenterOffset: 0
-	anchors.verticalCenterOffset: screenGeometry.height * 0.22
+	anchors.verticalCenterOffset: Screen.height * 0.22
 
     signal logoutRequested()
     signal haltRequested()

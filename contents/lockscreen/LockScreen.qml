@@ -29,31 +29,38 @@ import "../osd"
 
 Image {
     id: root
+    width: 1000
+    height: 1000
     property bool debug: false
     property string notification
     property UserSelect userSelect: null
     signal clearPassword()
 
-    property real screenFactor: screenGeometry.width/screenGeometry.height
-    source: {
-        if (screenFactor == 16.0 / 9.0) {
-            source = "../components/artwork/background_169.png"
-        }
-        else if (screenFactor == 16.0 / 10.0) {
-            source = "../components/artwork/background_1610.png"
-        }
-        else if (screenFactor == 4.0 / 3.0) {
-            source = "../components/artwork/background_43.png"
-        }
-        else {
-            source = "../components/artwork/background.png"
-        }
-    }
-    fillMode: Image.PreserveAspectFit
-
-    onStatusChanged: {
-        if (status == Image.Error) {
-            source = "../components/artwork/background.png";
+    Repeater {
+        model: screenModel
+        Background {
+            x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
+            property real ratio: geometry.width / geometry.height
+            source: {
+                if (ratio == 16.0 / 9.0) {
+                    source = "../components/artwork/background_169.png"
+                }
+                else if (ratio == 16.0 / 10.0) {
+                    source = "../components/artwork/background_1610.png"
+                }
+                else if (ratio == 4.0 / 3.0) {
+                    source = "../components/artwork/background_43.png"
+                }
+                else {
+                    source = "../components/artwork/background.png"
+                }
+            }
+            fillMode: Image.PreserveAspectFit
+            onStatusChanged: {
+                if (status == Image.Error && source != config.defaultBackground) {
+                    source = "../components/artwork/background.png"
+                }
+            }
         }
     }
 
@@ -88,6 +95,7 @@ Image {
 
     StackView {
         id: stackView
+        property variant geometry: screenModel.geometry(screenModel.primary)
         width: geometry.width
         height: units.largeSpacing * 11
         anchors.centerIn: parent
