@@ -18,34 +18,26 @@
  */
 
 import QtQuick 2.2
+import QtQuick.Window 2.2
 
 Image {
     id: root
-    width: 1000
-    height: 1000
-
-    Repeater {
-        model: screenModel
-        Background {
-            x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
-            property real ratio: geometry.width / geometry.height
-            source: {
-                if (ratio == 16.0 / 9.0) {
-                    source = "../components/artwork/background_169.png"
-                }
-                else if (ratio == 16.0 / 10.0) {
-                    source = "../components/artwork/background_1610.png"
-                }
-                else if (ratio == 4.0 / 3.0) {
-                    source = "../components/artwork/background_43.png"
-                }
-                else {
-                    source = "../components/artwork/background.png"
-                }
-            }
-            fillMode: Image.PreserveAspectFit
+    width: screen.width
+    height: screen.height
+    property real ratio: (screen.width / screen.height)
+    source: {
+        source = "../components/artwork/background.png"
+        if ((ratio - (16.0 / 9.0)) <= 0.00001) {
+            source = "../components/artwork/background_169.png"
+        }
+        else if ((ratio - (16.0 / 10.0)) <= 0.00001) {
+            source = "../components/artwork/background_1610.png"
+        }
+        else if ((ratio - (4.0 / 3.0)) <= 0.00001) {
+            source = "../components/artwork/background_43.png"
         }
     }
+    fillMode: Image.PreserveAspectFit
 
     property int stage
 
@@ -54,14 +46,15 @@ Image {
             introAnimation.running = true
         }
     }
+    
     Rectangle {
         id: topRect
-        width: geometry.width
-        height: units.largeSpacing * 8
+        width: parent.width
+        height: 150
         anchors.centerIn: parent
         anchors.horizontalCenterOffset: 0
-        anchors.verticalCenterOffset: geometry.height * 0.22
-        color: "#4C000000"
+        anchors.verticalCenterOffset: parent.height * 0.20
+        color: "#4Ceff0f1"
         Image {
             source: "images/arch.svgz"
             anchors.centerIn: parent
@@ -72,12 +65,12 @@ Image {
 
     Rectangle {
         id: bottomRect
-        width: geometry.width
-        height: units.largeSpacing * 3
-        anchors.horizontalCenter: topRect.horizontalCenter
-        anchors.top: topRect.bottom
-		anchors.topMargin: 1
-        color: "#4C000000"
+        width: parent.width
+        height: 50
+        anchors.centerIn: topRect
+        anchors.horizontalCenterOffset: 0
+        anchors.verticalCenterOffset: 101
+        color: "#4Ceff0f1"
 
         Rectangle {
             radius: 3
@@ -93,7 +86,7 @@ Image {
                     bottom: parent.bottom
                 }
                 width: (parent.width / 6) * (stage - 1)
-                color: "#3daee9"
+                color: "#1793d1"
                 Behavior on width { 
                     PropertyAnimation {
                         duration: 250

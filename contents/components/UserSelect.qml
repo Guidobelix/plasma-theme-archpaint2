@@ -45,7 +45,7 @@ FocusScope {
         id: infoPane
         anchors {
             verticalCenter: usersList.verticalCenter
-            right: usersList.left
+//            right: usersList.left
             left: parent.left
         }
     }
@@ -69,7 +69,7 @@ FocusScope {
             left: parent.horizontalCenter
             right: parent.right
 
-            leftMargin: -userItemWidth*1.5 //allow 1 item to the left of the centre (the half is to fit the item that will go in the centre)
+            leftMargin: -userItemWidth * 1.5 //allow 1 item to the left of the centre (the half is to fit the item that will go in the centre)
         }
         clip: true
         height: userItemHeight

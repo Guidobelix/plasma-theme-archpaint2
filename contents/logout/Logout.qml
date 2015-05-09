@@ -17,16 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-import QtQuick 2.1
+import QtQuick 2.2
 import QtQuick.Window 2.2
 import "../components"
 
 Item {
     id: root
-    height: units.largeSpacing*11
-    width: Screen.width
-    anchors.horizontalCenterOffset: 0
-	anchors.verticalCenterOffset: Screen.height * 0.22
+    height: 201
+    width: screenGeometry.width
+//    y: 26 + (screen.height * 0.2)
 
     signal logoutRequested()
     signal haltRequested()

@@ -17,7 +17,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *********************************************************************/
 
-import QtQuick 2.0
+import QtQuick 2.2
+import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.1
 import org.kde.plasma.components 2.0 as PlasmaComponents
@@ -25,42 +26,32 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kscreenlocker 1.0
 import org.kde.plasma.workspace.keyboardlayout 1.0
 import "../components"
-import "../osd"
 
 Image {
     id: root
-    width: 1000
-    height: 1000
     property bool debug: false
     property string notification
     property UserSelect userSelect: null
     signal clearPassword()
 
-    Repeater {
-        model: screenModel
-        Background {
-            x: geometry.x; y: geometry.y; width: geometry.width; height:geometry.height
-            property real ratio: geometry.width / geometry.height
-            source: {
-                if (ratio == 16.0 / 9.0) {
-                    source = "../components/artwork/background_169.png"
-                }
-                else if (ratio == 16.0 / 10.0) {
-                    source = "../components/artwork/background_1610.png"
-                }
-                else if (ratio == 4.0 / 3.0) {
-                    source = "../components/artwork/background_43.png"
-                }
-                else {
-                    source = "../components/artwork/background.png"
-                }
-            }
-            fillMode: Image.PreserveAspectFit
-            onStatusChanged: {
-                if (status == Image.Error && source != config.defaultBackground) {
-                    source = "../components/artwork/background.png"
-                }
-            }
+    property real ratio: screen.width / screen.height
+    source: {
+        source = "../components/artwork/background.png"
+        if (ratio - (16.0 / 9.0) <= 0.0001) {
+            source = "../components/artwork/background_169.png"
+        }
+        else if (ratio - (16.0 / 10.0) <= 0.0001) {
+            source = "../components/artwork/background_1610.png"
+        }
+        else if (ratio - (4.0 / 3.0) <= 0.0001) {
+            source = "../components/artwork/background_43.png"
+        }
+    }
+    fillMode: Image.PreserveAspectFit
+
+    onStatusChanged: {
+        if (status == Image.Error) {
+            source = "../components/artwork/background.png";
         }
     }
 
@@ -95,12 +86,11 @@ Image {
 
     StackView {
         id: stackView
-        property variant geometry: screenModel.geometry(screenModel.primary)
-        width: geometry.width
-        height: units.largeSpacing * 11
+        width: parent.width
+        height: 201
         anchors.centerIn: parent
         anchors.horizontalCenterOffset: 0
-        anchors.verticalCenterOffset: geometry.height * 0.22
+        anchors.verticalCenterOffset: 26 + (parent.height * 0.2)
 
         initialItem: BreezeBlock {
             id: block
@@ -130,25 +120,27 @@ Image {
                     id: users
 
                     Component.onCompleted: {
-                        users.append({name: kscreenlocker_userName,
-                                      realName: kscreenlocker_userName,
-                                      icon: kscreenlocker_userImage,
-                                      showPassword: true,
-                                      ButtonLabel: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Unlock"),
-                                      ButtonAction: "unlock"
+                        users.append({  "name": kscreenlocker_userName,
+                                        "realName": kscreenlocker_userName,
+                                        "icon": kscreenlocker_userImage,
+                                        "showPassword": true,
+                                        "ButtonLabel": i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Unlock"),
+                                        "ButtonAction": "unlock"
                         })
                         if(sessions.startNewSessionSupported) {
-                            users.append({realName: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "New Session"),
-                                          icon: "system-log-out", //TODO Need an icon for new session
-                                          ButtonLabel: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Create Session"),
-                                          ButtonAction: "newSession"
+                            users.append({  "realName": i18nd("plasma_lookandfeel_org.kde.lookandfeel", "New Session"),
+                                            "icon": "system-log-out", //TODO Need an icon for new session
+                                            "showPassword": false,
+                                            "ButtonLabel": i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Create Session"),
+                                            "ButtonAction": "newSession"
                             })
                         }
                         if(sessions.switchUserSupported) {
-                            users.append({realName: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Change Session"),
-                                          icon: "system-switch-user",
-                                          ButtonLabel: i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Change Session..."),
-                                          ButtonAction: "changeSession"
+                            users.append({  "realName": i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Change Session"),
+                                            "icon": "system-switch-user",
+                                            "showPassword": false,
+                                            "ButtonLabel": i18nd("plasma_lookandfeel_org.kde.lookandfeel", "Change Session..."),
+                                            "ButtonAction": "changeSession"
                             })
                         }
                     }
@@ -174,7 +166,7 @@ Image {
                             placeholderText: i18nd("plasma_lookandfeel_org.kde.lookandfeel","Password")
                             echoMode: TextInput.Password
                             enabled: !authenticator.graceLocked
-                            onAccepted: actionButton.clicked(null)
+                            onAccepted: unlockFunction()
                             focus: true
                             //HACK: Similar hack is needed in sddm loginscreen
                             //TODO: investigate
@@ -184,18 +176,10 @@ Image {
                                 repeat: false
                                 onTriggered: passwordInput.forceActiveFocus()
                             }
-                            visible: block.mainItem.model.count > 0 ? !!block.mainItem.model.get(block.mainItem.selectedIndex).showPassword : false
+                            visible: block.mainItem.model.get(block.mainItem.selectedIndex)["showPassword"]
                             onVisibleChanged: {
                                 if (visible) {
                                     forceActiveFocus();
-                                }
-                                text = "";
-                            }
-                            onTextChanged: {
-                                if (text == "") {
-                                    clearTimer.stop();
-                                } else {
-                                    clearTimer.restart();
                                 }
                             }
 
@@ -213,20 +197,11 @@ Image {
                                     event.accepted = false;
                                 }
                             }
-                            Timer {
-                                id: clearTimer
-                                interval: 30000
-                                repeat: false
-                                onTriggered: {
-                                    passwordInput.text = "";
-                                }
-                            }
                         }
 
                         PlasmaComponents.Button {
-                            id: actionButton
                             Layout.minimumWidth: passwordInput.width
-                            text: block.mainItem.model.count > 0 ? block.mainItem.model.get(block.mainItem.selectedIndex).ButtonLabel : ""
+                            text: block.mainItem.model.get(block.mainItem.selectedIndex)["ButtonLabel"]
                             enabled: !authenticator.graceLocked
                             onClicked: switch(block.mainItem.model.get(block.mainItem.selectedIndex)["ButtonAction"]) {
                                 case "unlock":
@@ -302,53 +277,6 @@ Image {
                         }
                     }
                 }
-            }
-        }
-    }
-    PlasmaCore.FrameSvgItem {
-        id: osd
-
-        // OSD Timeout in msecs - how long it will stay on the screen
-        property int timeout: 1800
-        // This is either a text or a number, if showingProgress is set to true,
-        // the number will be used as a value for the progress bar
-        property var osdValue
-        // Icon name to display
-        property string icon
-        // Set to true if the value is meant for progress bar,
-        // false for displaying the value as normal text
-        property bool showingProgress: false
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
-        }
-
-        objectName: "onScreenDisplay"
-        visible: false
-        width: osdItem.width + margins.left + margins.right
-        height: osdItem.height + margins.top + margins.bottom
-        imagePath: "widgets/background"
-
-        function show() {
-            osd.visible = true;
-            hideTimer.restart();
-        }
-
-        OsdItem {
-            id: osdItem
-            rootItem: osd
-
-            anchors.centerIn: parent
-        }
-
-        Timer {
-            id: hideTimer
-            interval: osd.timeout
-            onTriggered: {
-                osd.visible = false;
-                osd.icon = "";
-                osd.osdValue = 0;
             }
         }
     }

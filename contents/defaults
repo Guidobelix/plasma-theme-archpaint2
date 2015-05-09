@@ -2,10 +2,10 @@
 widgetStyle=breeze
 
 [kdeglobals][General]
-ColorScheme=BreezeDark
+ColorScheme=Breeze
 
 [kdeglobals][Icons]
-Theme=breeze-dark
+Theme=breeze
 
 [plasmarc][Theme]
 name=archpaint2

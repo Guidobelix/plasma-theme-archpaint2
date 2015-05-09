@@ -45,7 +45,7 @@ PlasmaCore.ColorScope {
     Loader {
         id: mainView
         anchors {
-            margins: units.largeSpacing / 2
+            margins: units.largeSpacing
 
             left: parent.left
             right: parent.right
