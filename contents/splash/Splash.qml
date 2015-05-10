@@ -54,7 +54,7 @@ Image {
         anchors.centerIn: parent
         anchors.horizontalCenterOffset: 0
         anchors.verticalCenterOffset: parent.height * 0.20
-        color: "#4Ceff0f1"
+        color: "#CCeff0f1"
         Image {
             source: "images/arch.svgz"
             anchors.centerIn: parent
@@ -70,7 +70,7 @@ Image {
         anchors.centerIn: topRect
         anchors.horizontalCenterOffset: 0
         anchors.verticalCenterOffset: 101
-        color: "#4Ceff0f1"
+        color: "#CCeff0f1"
 
         Rectangle {
             radius: 3
