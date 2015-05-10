@@ -25,7 +25,6 @@ Item {
     id: root
     height: 201
     width: screenGeometry.width
-//    y: 26 + (screen.height * 0.2)
 
     signal logoutRequested()
     signal haltRequested()

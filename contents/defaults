@@ -8,13 +8,13 @@ ColorScheme=Breeze
 Theme=breeze
 
 [plasmarc][Theme]
-name=archpaint2
+name=default
 
 [kcminputrc][Mouse]
 cursorTheme=breeze_cursors
 
 [kwinrc][WindowSwitcher]
-LayoutName=org.archlinux.archpaint2
+LayoutName=org.kde.breeze.desktop
 
 [kwinrc][DesktopSwitcher]
-LayoutName=org.archlinux.archpaint2
+LayoutName=org.kde.breeze.desktop
