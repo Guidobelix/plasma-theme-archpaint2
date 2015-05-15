@@ -27,13 +27,13 @@ Image {
     property real ratio: (screen.width / screen.height)
     source: {
         source = "../components/artwork/background.png"
-        if ((ratio - (16.0 / 9.0)) <= 0.00001) {
+        if ((ratio - (16.0 / 9.0)) <= 0.001) {
             source = "../components/artwork/background_169.png"
         }
-        else if ((ratio - (16.0 / 10.0)) <= 0.00001) {
+        else if ((ratio - (16.0 / 10.0)) <= 0.001) {
             source = "../components/artwork/background_1610.png"
         }
-        else if ((ratio - (4.0 / 3.0)) <= 0.00001) {
+        else if ((ratio - (4.0 / 3.0)) <= 0.001) {
             source = "../components/artwork/background_43.png"
         }
     }
