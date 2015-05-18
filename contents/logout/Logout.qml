@@ -23,7 +23,7 @@ import "../components"
 
 Item {
     id: root
-    height: 201
+    height: screenGeometry.height
     width: screenGeometry.width
 
     signal logoutRequested()
@@ -35,7 +35,11 @@ Item {
     signal lockScreenRequested()
 
     LogoutScreen {
-        anchors.fill: parent
+        width: root.width
+        height: 201
+        anchors.centerIn: parent
+        anchors.horizontalCenterOffset: 0
+        anchors.verticalCenterOffset: 26 + (root.height * 0.2)
 
         mode: switch (sdtype) {
             case ShutdownType.ShutdownTypeNone:

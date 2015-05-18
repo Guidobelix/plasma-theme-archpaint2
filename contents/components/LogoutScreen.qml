@@ -61,16 +61,18 @@ BreezeBlock {
         BreezeHeading {
             id: actionLabel
             Layout.alignment: Qt.AlignHCenter
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        Item { height: units.largeSpacing }
+        Item { height: 18 }
 
         PlasmaCore.IconItem {
-             id: actionIcon
+            id: actionIcon
             Layout.alignment: Qt.AlignHCenter
             Layout.fillHeight: true
             Layout.minimumWidth: height
             Layout.maximumWidth: height
+            anchors.horizontalCenter: parent.horizontalCenter
             colorGroup: PlasmaCore.ColorScope.colorGroup
             opacity: actionIconMouse.containsMouse ? 1 : 0.7
             MouseArea {
