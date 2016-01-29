@@ -106,19 +106,19 @@ BreezeBlock {
                 name: "shutdown"
                 PropertyChanges { target: root; currentAction: shutdownRequested }
                 PropertyChanges { target: actionLabel; text: i18nd("plasma_lookandfeel_org.kde.lookandfeel","Shutting down") }
-                PropertyChanges { target: actionIcon; source: "system-shutdown" }
+                PropertyChanges { target: actionIcon; source: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/shutdown_primary.svgz" }
             },
             State {
                 name: "logout"
                 PropertyChanges { target: root; currentAction: logoutRequested }
                 PropertyChanges { target: actionLabel; text: i18nd("plasma_lookandfeel_org.kde.lookandfeel","Logging out") }
-                PropertyChanges { target: actionIcon; source: "system-log-out" }
+                PropertyChanges { target: actionIcon; source: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/logout_primary.svgz" }
             },
             State {
                 name: "reboot"
                 PropertyChanges { target: root; currentAction: rebootRequested }
                 PropertyChanges { target: actionLabel; text: i18nd("plasma_lookandfeel_org.kde.lookandfeel","Rebooting") }
-                PropertyChanges { target: actionIcon; source: "system-reboot" }
+                PropertyChanges { target: actionIcon; source: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/restart_primary.svgz" }
             }
         ]
     }
@@ -132,13 +132,16 @@ BreezeBlock {
             anchors.centerIn: parent
 
             PlasmaComponents.Button {
+                id: cancelButton
                 text: i18nd("plasma_lookandfeel_org.kde.lookandfeel","Cancel")
                 onClicked: root.cancel()
+                Layout.preferredWidth: Math.max(commitButton.implicitWidth, cancelButton.implicitWidth)
             }
 
             PlasmaComponents.Button {
                 id: commitButton
                 onClicked: root.currentAction()
+                Layout.preferredWidth: Math.max(commitButton.implicitWidth, cancelButton.implicitWidth)
                 focus: true
 
                 function trigger() {

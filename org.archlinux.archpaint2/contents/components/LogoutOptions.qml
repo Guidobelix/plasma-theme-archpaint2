@@ -58,7 +58,7 @@ PlasmaComponents.ButtonRow {
     PlasmaComponents.ToolButton {
         id: restartButton
         flat: false
-        iconSource: "system-reboot"
+        iconSource: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/restart_primary.svgz"
         visible: root.canReboot
         checkable: true
         Accessible.name: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Button to restart the computer", "Reboot")
@@ -72,7 +72,7 @@ PlasmaComponents.ButtonRow {
     PlasmaComponents.ToolButton {
         id: shutdownButton
         flat: false
-        iconSource: "system-shutdown"
+        iconSource: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/shutdown_primary.svgz"
         visible: root.canShutdown
         checkable: true
         Accessible.name: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Button to shut down the computer", "Shutdown")
@@ -87,7 +87,7 @@ PlasmaComponents.ButtonRow {
     PlasmaComponents.ToolButton {
         id: logoutButton
         flat: false
-        iconSource: "system-log-out"
+        iconSource: "/usr/share/plasma/look-and-feel/org.archlinux.archpaint2/contents/components/artwork/logout_primary.svgz"
         visible: root.canLogout
         checkable: true
         Accessible.name: i18ndc("plasma_lookandfeel_org.kde.lookandfeel", "Button to log out of the desktop session", "Log out")

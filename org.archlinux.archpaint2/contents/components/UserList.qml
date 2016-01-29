@@ -22,9 +22,9 @@ import QtQuick 2.2
 ListView {
     id: view
     readonly property string selectedUser: currentItem ? currentItem.userName : ""
-    readonly property int userItemWidth: units.largeSpacing * 8
-    readonly property int userItemHeight: units.largeSpacing * 8
-    readonly property int userFaceSize: units.largeSpacing * 6
+    readonly property int userItemWidth: 18 * 8
+    readonly property int userItemHeight: 18 * 7
+    readonly property int userFaceSize: 18 * 6
 
     /*
      * Signals that a user was explicitly selected
@@ -38,12 +38,13 @@ ListView {
         name: (model.realName === "") ? model.name : model.realName
         userName: model.name || ""
         iconSource: model.icon ? model.icon : "user-identity"
-        width: view.userItemWidth
-        faceSize: view.userFaceSize
+        width: ListView.view.userItemWidth
+        height: ListView.view.userItemHeight
+        faceSize: ListView.view.userFaceSize
 
         onClicked: {
-            view.currentIndex = index;
-            view.userSelected();
+            ListView.view.currentIndex = index;
+            ListView.view.userSelected();
         }
     }
 
